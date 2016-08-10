@@ -7,8 +7,13 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 
 ## Installation (Edison)
 
-1. [Upgrade teh Firmare on your Intel Edison to Yocto 3.0](http://reprage.com/post/bootstrapping-the-intel-edison)
-2. ssh into your Edison.
+1. [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
+2. Update your Edison to the latest firmware version (3.5 at the time of writing).
+3. Run 'screen' to access your edison
+```
+	$ screen -L /dev/cu.usbserial-XXXXXXXX 115200 –L
+```
+4. Use 'root' for the login.
 3. Download and run the mtf-install script.
 ```
 	$ wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install.sh
