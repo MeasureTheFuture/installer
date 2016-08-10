@@ -21,6 +21,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 6. Download and run the mtf-install script.
 ```
 	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install.sh
+	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql
 	# chmod +x mtf-install.sh
 	# ./mtf-install.sh
 ```

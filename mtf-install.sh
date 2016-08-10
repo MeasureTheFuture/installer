@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Update opkg.
-opkg update
-opkg upgrade
-opkg install git
+#opkg update
+#opkg upgrade
+#opkg install git
 
 # Install golang.
 if [ ! -f go1.6.3.linux-386.tar.gz ]; then
@@ -34,19 +34,18 @@ go build github.com/MeasureTheFuture/scout
 # Configure the postgreSQL database.
 opkg install http://reprage.com/ipkgs/postgres_9.4.5_x86.ipk
 echo "PATH=$PATH:/usr/local/pgsql/bin/" >> /etc/profile
+echo "export PATH" >> /etc/profile
 source /etc/profile
 useradd postgres
 mkdir /usr/local/pgsql/data
-chown -R postgres:posgres /usr/local/pgsql
-su - postgres
-initdb -D /usr/local/pgsql/data -A md5 -W
-posgres -D /usr/local/pgsql/data &
-psql -v pass="'password'" -f db-bootstrap.sql
-exit
+chown -R postgres:postgres /usr/local/pgsql
+sudo -u postgres initdb -D /usr/local/pgsql/data -A md5 -W
+sudo -u postgres postgres -D /usr/local/pgsql/data &
+sudo -u postgres psql -v pass="'password'" -f db-bootstrap.sql
 
 # Get and build everything we need for the mothership.
-opkg install nodejs
-npm install npm -g
+#opkg install nodejs
+#npm install npm -g
 
 
 
