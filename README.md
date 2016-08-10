@@ -26,6 +26,15 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 	# ./mtf-install.sh
 ```
 
+## TODO:
+* Automatically spin up postgres on boot.
+* Automatically spin up the scout on boot.
+* Automatically spin up the mothership on boot.
+* Prompt the user for a Posgres/DB password.
+* Prompt the user for a wifi access point password.
+* Look at uninstalling gstreamer and python as well.
+* fix up all the go get github module warnings.
+
 ## License
 
 Copyright (C) 2016, Clinton Freeman
