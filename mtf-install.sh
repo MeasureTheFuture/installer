@@ -30,9 +30,21 @@ opkg remove iotivity-service
 opkg remove iotivity-simple-client
 opkg remove iotivity-resource
 opkg remove iotivity-service-dev
+opkg remove iotivity-service-staticdev
 opkg remove oobe
 opkg remove flex-dev
 opkg remove flex
+
+opkg remove cppzmq-dev
+opkg remove zeromq-dev
+opkg remove iotkit-comm-c-dev
+opkg remove iotkit-comm-c
+opkg remove iotkit-comm-js
+opkg remove zeromq
+opkg remove iotkit-agent
+opkg remove iotkit-opkg
+
+
 
 # Install golang.
 if [ ! -f go1.6.3.linux-386.tar.gz ]; then

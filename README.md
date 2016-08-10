@@ -9,7 +9,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 
 1. [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
 2. Update your Edison to the latest firmware version (3.5 at the time of writing).
-3. Open up a terminal and run 'screen' to access your Edison
+3. Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
 ```
 	$ screen -L /dev/cu.usbserial-XXXXXXXX 115200 –L
 ```
