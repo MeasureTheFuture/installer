@@ -9,15 +9,20 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 
 1. [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
 2. Update your Edison to the latest firmware version (3.5 at the time of writing).
-3. Run 'screen' to access your edison
+3. Open up a terminal and run 'screen' to access your Edison
 ```
 	$ screen -L /dev/cu.usbserial-XXXXXXXX 115200 –L
 ```
 4. Use 'root' for the login.
-3. Download and run the mtf-install script.
+5. Configure the Intel Edison to connect to the Internet over a wifi network.
 ```
-	$ wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install.sh
-	$ ./mtf-install.sh
+	# configure_edison --wifi
+```
+6. Download and run the mtf-install script.
+```
+	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install.sh
+	# chmod +x mtf-install.sh
+	# ./mtf-install.sh
 ```
 
 ## License
