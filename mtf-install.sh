@@ -78,7 +78,7 @@ source /etc/profile
 useradd postgres
 
 # Configure SSL keys for the postgreSQL database.
-cd /usr/local
+cd /usr/local/pgsql/data
 openssl req -new -text -out server.req
 openssl rsa -in privkey.pem -out server.key
 rm privkey.pem
