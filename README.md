@@ -16,7 +16,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 4. Use 'root' for the login.
 5. Configure the Intel Edison to connect to the Internet over a wifi network.
 ```
-	# configure_edison --wifi
+	# configure_edison --setup
 ```
 6. Download and run the mtf-install script.
 ```
@@ -34,6 +34,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 * Prompt the user for a wifi access point password.
 * Look at uninstalling gstreamer and python as well.
 * fix up all the go get github module warnings.
+* Migrate the DB.
 
 ## License
 

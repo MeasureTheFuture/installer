@@ -13,10 +13,10 @@ opkg remove upm-dev
 opkg remove upm
 opkg remove mraa-doc
 opkg remove mraa-dev
-opkg remove mraa
 opkg remove wyliodrin-server
 opkg remove libwyliodrin
 opkg remove iotivity-sensorboard
+opkg remove mraa
 opkg remove iotivity-dev
 opkg remove iotiviy
 opkg remove iotivity-plugins-samples
@@ -43,8 +43,6 @@ opkg remove iotkit-comm-js
 opkg remove zeromq
 opkg remove iotkit-agent
 opkg remove iotkit-opkg
-
-
 
 # Install golang.
 if [ ! -f go1.6.3.linux-386.tar.gz ]; then
@@ -73,11 +71,22 @@ go get github.com/MeasureTheFuture/scout
 go build github.com/MeasureTheFuture/scout
 
 # Configure the postgreSQL database.
-opkg install http://reprage.com/ipkgs/postgres_9.4.5_x86.ipk
+opkg install http://reprage.com/ipkgs/postgres_9.5.3_x86.ipk
 echo "PATH=$PATH:/usr/local/pgsql/bin/" >> /etc/profile
 echo "export PATH" >> /etc/profile
 source /etc/profile
 useradd postgres
+
+# Configure SSL keys for the postgreSQL database.
+cd /usr/local
+openssl req -new -text -out server.req
+openssl rsa -in privkey.pem -out server.key
+rm privkey.pem
+openssl req -x509 -in server.req -text -key server.key -out server.crt
+chmod og-rwx server.key
+echo "ssl = on" >> /usr/local/pgsql/data/postgresql.conf
+cd ~/
+
 mkdir /usr/local/pgsql/data
 chown -R postgres:postgres /usr/local/pgsql
 sudo -u postgres initdb -D /usr/local/pgsql/data -A md5 -W
@@ -104,10 +113,11 @@ go build github.com/MeasureTheFuture/mothership
 cd ~/mtf/src/github.com/MeasureTheFuture/mothership/frontend
 npm cache clean
 npm install
-echo "PATH=$PATH:$(npm bin)/" >> /etc/profile
-echo "export PATH" >> /etc/profile
-source /etc/profile
+#echo "PATH=$PATH:$(npm bin)/" >> /etc/profile
+#echo "export PATH" >> /etc/profile
+#source /etc/profile
 npm run build
+cd ~/
 
 # Migrate the database to the latest version.
 go get github.com/fatih/color
@@ -118,9 +128,8 @@ go get github.com/golang/snappy
 go get github.com/hailocab/go-hostpool
 go get gopkg.in/inf.v0
 go get github.com/mattes/migrate
+go build github.com/mattes/migrate
 
-#opkg install nodejs
-#npm install npm -g
+./migrate -url postgres://mothership_user:password@localhost:5432/mothership -path ./mtf/src/github.com/MeasureTheFuture/mothership/migrations up
 
-
-
+#TODO: write config files for mothership and scout.
