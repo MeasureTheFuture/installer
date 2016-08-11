@@ -5,9 +5,9 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ![alpha](https://img.shields.io/badge/stability-alpha-orange.svg?style=flat "Alpha")&nbsp;
  ![GPLv3 License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat "GPLv3 License")
 
-## Installation (Edison)
+## Regular Installation (Edison)
 
-1. [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
+[Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
 2. Update your Edison to the latest firmware version (3.5 at the time of writing).
 3. Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
 ```
@@ -21,9 +21,35 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 6. Download and run the mtf-install script.
 ```
 	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install.sh
-	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql
 	# chmod +x mtf-install.sh
 	# ./mtf-install.sh
+```
+7. Along the way you will get prompted to generate passwords and what not.
+8. Move into the mtf-build directory and start it up.
+```
+	# sudo -u postgres postgres -D /usr/local/pgsql/data &
+	# ./mothership &
+	# ./scout &
+```
+
+## Developer Installation (Edison)
+
+1. [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
+2. Update your Edison to the latest firmware version (3.5 at the time of writing).
+3. Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
+```
+	$ screen -L /dev/cu.usbserial-XXXXXXXX 115200 –L
+```
+4. Use 'root' for the login.
+5. Configure the Intel Edison to connect to the Internet over a wifi network.
+```
+	# configure_edison --setup
+```
+6. Download and run the mtf-install-dev script.
+```
+	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install-dev.sh
+	# chmod +x mtf-install-dev.sh
+	# ./mtf-install-dev.sh
 ```
 
 ## TODO:
@@ -34,7 +60,8 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 * Prompt the user for a wifi access point password.
 * Look at uninstalling gstreamer and python as well.
 * fix up all the go get github module warnings.
-* Migrate the DB.
+* ~~Migrate the DB.~~
+* Shift the DB data to /home -- seems to have much more space.
 
 ## License
 
