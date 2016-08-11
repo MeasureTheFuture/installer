@@ -58,10 +58,8 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 * Automatically spin up the mothership on boot.
 * Prompt the user for a Posgres/DB password.
 * Prompt the user for a wifi access point password.
-* Look at uninstalling gstreamer and python as well.
 * fix up all the go get github module warnings.
 * ~~Migrate the DB.~~
-* Shift the DB data to /home -- seems to have much more space.
 
 ## License
 
