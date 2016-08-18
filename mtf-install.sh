@@ -57,7 +57,7 @@ opkg install http://reprage.com/ipkgs/postgres_9.5.3_x86.ipk
 echo "PATH=$PATH:/usr/local/pgsql/bin/" >> /etc/profile
 echo "export PATH" >> /etc/profile
 
-echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> /etc/profile
+echo "LD_LIBRARY_PATH=/usr/local/lib" >> /etc/profile
 echo "export LD_LIBRARY_PATH" >> /etc/profile
 
 source /etc/profile
