@@ -48,13 +48,18 @@ opkg remove iotkit-opkg
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql
 
 # Install OpenCV
-opkg install http://reprage.com/ipkgs/opencv_3.0.0_x86.ipk
-opkg install http://reprage.com/ipkgs/cvbindings_3.0.0_x86.ipk
+opkg install http://reprage.com/ipkgs/libv4l-dev_1.10.1_x86.ipk
+opkg install http://reprage.com/ipkgs/opencv_3.1.0_x86.ipk
+opkg install http://reprage.com/ipkgs/cvbindings_3.1.0_x86.ipk
 
 # Configure the postgreSQL database.
 opkg install http://reprage.com/ipkgs/postgres_9.5.3_x86.ipk
 echo "PATH=$PATH:/usr/local/pgsql/bin/" >> /etc/profile
 echo "export PATH" >> /etc/profile
+
+echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib" >> /etc/profile
+echo "export LD_LIBRARY_PATH" >> /etc/profile
+
 source /etc/profile
 useradd postgres
 
@@ -77,7 +82,7 @@ sleep 10
 sudo -u postgres psql -v pass="'password'" -f db-bootstrap.sql
 
 # Install MTF.
-opkg install http://reprage.com/ipkgs/mtf_0.0.2_x86.ipk
+opkg install http://reprage.com/ipkgs/mtf_0.0.3_x86.ipk
 
 # Migrate database to the latest version.
 cd ~/mtf-build/
