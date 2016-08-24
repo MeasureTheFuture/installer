@@ -7,25 +7,25 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 
 ## Regular Installation (Edison)
 
-[Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
-2. Update your Edison to the latest firmware version (3.5 at the time of writing).
-3. Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
+* [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
+* Update your Edison to the latest firmware version (3.5 at the time of writing).
+* Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
 ```
 	$ screen -L /dev/cu.usbserial-XXXXXXXX 115200 –L
 ```
-4. Use 'root' for the login.
-5. Configure the Intel Edison to connect to the Internet over a wifi network.
+* Use 'root' for the login.
+* Configure the Intel Edison to connect to the Internet over a wifi network.
 ```
 	# configure_edison --setup
 ```
-6. Download and run the mtf-install script.
+* Download and run the mtf-install script.
 ```
 	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install.sh
 	# chmod +x mtf-install.sh
 	# ./mtf-install.sh
 ```
-7. Along the way you will get prompted to generate passwords and what not.
-8. Move into the mtf-build directory and start it up.
+* Along the way you will get prompted to generate passwords and what not.
+* Move into the mtf-build directory and start it up.
 ```
 	# sudo -u postgres postgres -D /usr/local/pgsql/data &
 	# ./mothership &
@@ -34,18 +34,18 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 
 ## Developer Installation (Edison)
 
-1. [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
-2. Update your Edison to the latest firmware version (3.5 at the time of writing).
-3. Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
+* [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)
+* Update your Edison to the latest firmware version (3.5 at the time of writing).
+* Open up a terminal and run 'screen' to access your Edison (the xxx part will differ for your board)
 ```
 	$ screen -L /dev/cu.usbserial-XXXXXXXX 115200 –L
 ```
-4. Use 'root' for the login.
-5. Configure the Intel Edison to connect to the Internet over a wifi network.
+* Use 'root' for the login.
+* Configure the Intel Edison to connect to the Internet over a wifi network.
 ```
 	# configure_edison --setup
 ```
-6. Download and run the mtf-install-dev script.
+* Download and run the mtf-install-dev script.
 ```
 	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install-dev.sh
 	# chmod +x mtf-install-dev.sh
@@ -53,13 +53,12 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ```
 
 ## TODO:
-* Automatically spin up postgres on boot.
-* Automatically spin up the scout on boot.
-* Automatically spin up the mothership on boot.
-* Prompt the user for a Posgres/DB password.
-* Prompt the user for a wifi access point password.
-* fix up all the go get github module warnings.
-* ~~Migrate the DB.~~
+- [ ] Automatically spin up postgres on boot.
+- [ ] Automatically spin up the scout on boot.
+- [ ] Automatically spin up the mothership on boot.
+- [ ] Prompt the user for a Posgres/DB password.
+- [ ] Prompt the user for a wifi access point password.
+- [ ] fix up all the go get github module warnings.
 
 ## License
 
