@@ -82,7 +82,7 @@ sleep 10
 sudo -u postgres psql -v pass="'password'" -f db-bootstrap.sql
 
 # Install MTF.
-opkg install http://reprage.com/ipkgs/mtf_0.0.4_x86.ipk
+opkg install http://reprage.com/ipkgs/mtf_0.0.5_x86.ipk
 
 # Migrate database to the latest version.
 cd ~/mtf-build/
