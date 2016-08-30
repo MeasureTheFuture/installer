@@ -56,8 +56,8 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 - [ ] Automatically spin up postgres on boot.
 - [ ] Automatically spin up the scout on boot.
 - [ ] Automatically spin up the mothership on boot.
-- [ ] Prompt the user for a Posgres/DB password.
-- [ ] Prompt the user for a wifi access point password.
+- [x] Prompt the user for a Posgres/DB password.
+- [x] Prompt the user for a wifi access point password.
 - [ ] fix up all the go get github module warnings.
 
 ## License
