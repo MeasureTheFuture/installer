@@ -63,7 +63,7 @@ done
 echo -ne " Done\n"
 
 # Install OpenCV
-echo -ne "Installing OpenCV "
+echo -ne "Installing OpenCV"
 for pkg in "${openCV_packages[@]}"
 do
 	opkg install "${pkg}" &> /dev/null
@@ -86,22 +86,18 @@ chown -R postgres:postgres /usr/local/pgsql
 echo -ne " Done\n"
 
 echo -ne "Configuring postgreSQL... \n"
-read -s -p "Create a password for the postgreSQL administrator: " posgres_super_pass
+read -s -p "Create a password for the postgreSQL administrator: " pg_password
 echo -ne "\n"
 read -s -p "Create a different password for the MTF database: " mtf_database_pass
 echo -ne "\n"
 
-echo "${postgres_super_pass}" >> post_pass
+echo "${pg_password}" >> post_pass
 sudo -u postgres initdb -D /usr/local/pgsql/data -A md5 --pwfile=post_pass &> /dev/null
 rm post_pass
 
 # Configure SSL key for the postgreSQL database.
 cd /usr/local/pgsql/data
 openssl req -new -newkey rsa:2048 -nodes -x509 -subj "/C=AU/ST=Queensland/L=Cairns/O=MTF/CN=www.measurethefuture.net" -keyout server.key -out server.crt &> /dev/null
-# openssl req -new -text -out server.req
-# openssl rsa -in privkey.pem -out server.key
-# rm privkey.pem
-# openssl req -x509 -in server.req -text -key server.key -out server.crt
 chmod og-rwx server.key
 echo "ssl = on" >> /usr/local/pgsql/data/postgresql.conf
 cd ~/
@@ -110,7 +106,8 @@ chown -R postgres:postgres /usr/local/pgsql
 # Start up postgreSQL and bootstrap the database.
 sudo -u postgres postgres -D /usr/local/pgsql/data &
 sleep 10
-sudo -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
+export PGPASSWORD="${pg_password}"
+sudo -E -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
 echo -ne "Configuring postgreSQL... Done\n"
 
 # Install MTF.
@@ -121,8 +118,8 @@ echo -ne " Done\n"
 # Migrate database to the latest version.
 echo -ne "Initalising Database..."
 cd ~/mtf-build/
-./migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path ./migrations up
-sed -i -e 's/password/${mtf_database_pass}/g' ~/mtf-build/mothership.json
+./migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path ./migrations up &> /dev/null
+sed -i -e "s/password/${mtf_database_pass}/g" ~/mtf-build/mothership.json
 echo -ne " Done\n"
 
 
