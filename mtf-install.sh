@@ -130,6 +130,7 @@ echo -ne " Done\n"
 
 # Spin up the mothership.
 echo -ne "Starting Measure the Future..."
+cd ~/
 cp mtf-mothership.service /lib/systemd/system
 systemctl daemon-reload &> /dev/null
 systemctl start mtf-mothership.service &> /dev/null

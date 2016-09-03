@@ -54,6 +54,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ## TODO:
 - [ ] Automatically spin up the scout on boot.
 - [ ] Add instructions with what to do next after install is completed.
+- [ ] mothership should start as www-data.
 - [x] Automatically spin up postgres on boot.
 - [x] Automatically spin up the mothership on boot.
 - [x] Prompt the user for a Posgres/DB password.
