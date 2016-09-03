@@ -25,10 +25,9 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 	# ./mtf-install.sh
 ```
 * Along the way you will get prompted to generate passwords and what not.
-* Move into the mtf-build directory and start it up.
+* Move into the mtf-build directory and start the scout up.
 ```
-	# sudo -u postgres postgres -D /usr/local/pgsql/data &
-	# ./mothership &
+	# cd mtf-build/
 	# ./scout &
 ```
 
@@ -53,12 +52,12 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ```
 
 ## TODO:
-- [ ] Automatically spin up postgres on boot.
 - [ ] Automatically spin up the scout on boot.
-- [ ] Automatically spin up the mothership on boot.
+- [ ] Add instructions with what to do next after install is completed.
+- [x] Automatically spin up postgres on boot.
+- [x] Automatically spin up the mothership on boot.
 - [x] Prompt the user for a Posgres/DB password.
 - [x] Prompt the user for a wifi access point password.
-- [ ] Add instructions with what to do next after install is completed.
 
 ## License
 

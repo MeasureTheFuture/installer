@@ -51,6 +51,8 @@ openCV_packages=(
 echo ""
 echo -ne "Downloading installer... "
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql &> /dev/null
+wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/postgresql.service &> /dev/null
+wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-mothership.service &> /dev/null
 echo -ne "Done\n"
 
 # Remove unused packages and tidy up a bit of space
@@ -104,7 +106,11 @@ cd ~/
 chown -R postgres:postgres /usr/local/pgsql
 
 # Start up postgreSQL and bootstrap the database.
-sudo -u postgres postgres -D /usr/local/pgsql/data &
+cp postgresql.service /lib/systemd/system
+systemctl daemon-reload &> /dev/null
+systemctl start postgresql.service &> /dev/null
+systemctl enable postgresql.service &> /dev/null
+
 sleep 10
 export PGPASSWORD="${pg_password}"
 sudo -E -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
@@ -122,4 +128,14 @@ cd ~/mtf-build/
 sed -i -e "s/password/${mtf_database_pass}/g" ~/mtf-build/mothership.json
 echo -ne " Done\n"
 
+# Spin up the mothership.
+echo -ne "Starting Measure the Future..."
+cp mtf-mothership.service /lib/systemd/system
+systemctl daemon-reload &> /dev/null
+systemctl start mtf-mothership.service &> /dev/null
+systemctl enable mtf-mothership.service &> /dev/null
+echo -ne " Done\n"
 
+echo -ne "*******************\n"
+echo -ne "INSTALL SUCCESSFUL!\n"
+echo -ne "*******************\n"
