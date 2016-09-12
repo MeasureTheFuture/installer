@@ -28,6 +28,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 * Move into the mtf-build directory and start the scout up.
 ```
 	# cd mtf-build/
+	# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 	# ./scout &
 ```
 
@@ -49,6 +50,12 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 	# wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-install-dev.sh
 	# chmod +x mtf-install-dev.sh
 	# ./mtf-install-dev.sh
+```
+
+## Notes:
+OpenCV has been currently complied on the Intel Edison with:
+```
+	cmake -D WITH_IPP=OFF -D WITH_TBB=OFF -D BUILD_TBB=OFF -D WITH_CUDA=OFF -D WITH_OPENCL=OFF -D BUILD_SHARED_LIBS=ON -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D WITH_V4L=ON -D WITH_LIBV4L=ON .
 ```
 
 ## TODO:
