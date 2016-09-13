@@ -137,6 +137,14 @@ systemctl start mtf-mothership.service &> /dev/null
 systemctl enable mtf-mothership.service &> /dev/null
 echo -ne " Done\n"
 
+# Switch the Edison into Access point mode.
+echo -ne "Opening access point..."
+systemctl stop wpa_supplicant &> /dev/null
+systemctl start hostapd &> /dev/null
+systemctl disable wpa_supplicant &> /dev/null
+systemctl enable hostapd &> /dev/null
+echo -ne " Done\n"
+
 echo -ne "*******************\n"
 echo -ne "INSTALL SUCCESSFUL!\n"
 echo -ne "*******************\n"

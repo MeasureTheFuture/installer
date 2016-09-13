@@ -31,6 +31,10 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 	# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 	# ./scout &
 ```
+* When completed, the Edison will be running as a self-contained wireless access point:
+	* ** The network name will be the same as what you entered for *Device Name* when you ran configure_edison. **
+	* ** The network password will be the same as what you entered for *Device Password* when you ran configure_edison. **
+* Once you have connected to the above wireless network, enter http://192.168.42.1 to access the user interface.
 
 ## Developer Installation (Edison)
 
