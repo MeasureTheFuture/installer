@@ -26,9 +26,9 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ```
 * Along the way you will be prompted to create passwords for different components.
 * When completed, the Edison will be running as a self-contained wireless access point:
-	* The network name will be the same as what you entered for *Device Name* when you ran configure_edison.
-	* The network password will be the same as what you entered for *Device Password* when you ran configure_edison.
-	* When you are connected to the self-contained wireless access point, enter http://192.168.42.1 into a browser to start measuring the future.
+    * The network is the same as the *Device Name* you supplied to configure_edison
+    * The password is the same as the *Device Password* you supplied to configure_edison
+	* Visit *http://192.168.42.1* in your web browser to measure the future
 
 ## Developer Installation (Edison)
 
