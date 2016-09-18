@@ -24,17 +24,11 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 	# chmod +x mtf-install.sh
 	# ./mtf-install.sh
 ```
-* Along the way you will get prompted to generate passwords and what not.
-* Move into the mtf-build directory and start the scout up.
-```
-	# cd mtf-build/
-	# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-	# ./scout &
-```
+* Along the way you will be prompted to create passwords for different components.
 * When completed, the Edison will be running as a self-contained wireless access point:
-	* ** The network name will be the same as what you entered for *Device Name* when you ran configure_edison. **
-	* ** The network password will be the same as what you entered for *Device Password* when you ran configure_edison. **
-* Once you have connected to the above wireless network, enter http://192.168.42.1 to access the user interface.
+	* The network name will be the same as what you entered for *Device Name* when you ran configure_edison.
+	* The network password will be the same as what you entered for *Device Password* when you ran configure_edison.
+	* When you are connected to the self-contained wireless access point, enter http://192.168.42.1 into a browser to start measuring the future.
 
 ## Developer Installation (Edison)
 
@@ -63,9 +57,9 @@ OpenCV has been currently complied on the Intel Edison with:
 ```
 
 ## TODO:
-- [ ] Automatically spin up the scout on boot.
 - [ ] Add instructions with what to do next after install is completed.
 - [ ] mothership should start as www-data.
+- [x] Automatically spin up the scout on boot.
 - [x] Automatically spin up postgres on boot.
 - [x] Automatically spin up the mothership on boot.
 - [x] Prompt the user for a Posgres/DB password.

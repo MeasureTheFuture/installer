@@ -53,6 +53,7 @@ echo -ne "Downloading installer... "
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql &> /dev/null
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/postgresql.service &> /dev/null
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-mothership.service &> /dev/null
+wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-scout.service &> /dev/null
 echo -ne "Done\n"
 
 # Remove unused packages and tidy up a bit of space
@@ -128,13 +129,16 @@ cd ~/mtf-build/
 sed -i -e "s/password/${mtf_database_pass}/g" ~/mtf-build/mothership.json
 echo -ne " Done\n"
 
-# Spin up the mothership.
+# Spin up the mothership and scout.
 echo -ne "Starting Measure the Future..."
 cd ~/
 cp mtf-mothership.service /lib/systemd/system
+cp mtf-scout.service /lib/systemd/system
 systemctl daemon-reload &> /dev/null
 systemctl start mtf-mothership.service &> /dev/null
 systemctl enable mtf-mothership.service &> /dev/null
+systemctl start mtf-scout.service &> /dev/null
+systemctl enable mtf-scout.service &> /dev/null
 echo -ne " Done\n"
 
 # Switch the Edison into Access point mode.
@@ -147,4 +151,4 @@ echo -ne " Done\n"
 
 echo -ne "*******************\n"
 echo -ne "INSTALL SUCCESSFUL!\n"
-echo -ne "*******************\n"
+echo -ne "*******************\n\n"
