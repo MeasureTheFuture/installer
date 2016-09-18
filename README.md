@@ -50,20 +50,11 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 	# ./mtf-install-dev.sh
 ```
 
-## Notes:
+## Developer Notes:
 OpenCV has been currently complied on the Intel Edison with:
 ```
 	cmake -D WITH_IPP=OFF -D WITH_TBB=OFF -D BUILD_TBB=OFF -D WITH_CUDA=OFF -D WITH_OPENCL=OFF -D BUILD_SHARED_LIBS=ON -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D WITH_V4L=ON -D WITH_LIBV4L=ON .
 ```
-
-## TODO:
-- [ ] Add instructions with what to do next after install is completed.
-- [ ] mothership should start as www-data.
-- [x] Automatically spin up the scout on boot.
-- [x] Automatically spin up postgres on boot.
-- [x] Automatically spin up the mothership on boot.
-- [x] Prompt the user for a Posgres/DB password.
-- [x] Prompt the user for a wifi access point password.
 
 ## License
 
