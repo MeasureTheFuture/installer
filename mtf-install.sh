@@ -54,6 +54,7 @@ wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-boot
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/postgresql.service &> /dev/null
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-mothership.service &> /dev/null
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-scout.service &> /dev/null
+wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/cron-file.tab &> /dev/null
 echo -ne "Done\n"
 
 # Remove unused packages and tidy up a bit of space
@@ -139,6 +140,13 @@ systemctl start mtf-mothership.service &> /dev/null
 systemctl enable mtf-mothership.service &> /dev/null
 systemctl start mtf-scout.service &> /dev/null
 systemctl enable mtf-scout.service &> /dev/null
+echo -ne " Done\n"
+
+# Install cron.
+echo -ne "Installing Cron..."
+opkg install http://iotdk.intel.com/repos/3.5/iotdk/edison/core2-32/pam-plugin-access_1.1.6-r5_core2-32.ipk
+opkg install http://iotdk.intel.com/repos/3.5/iotdk/edison/core2-32/cronie_1.4.11-r0_core2-32.ipk
+crontab cron-file.tab
 echo -ne " Done\n"
 
 # Switch the Edison into Access point mode.

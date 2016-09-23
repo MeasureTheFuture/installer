@@ -1,0 +1,2 @@
+* */12 * * * systemctl restart mtf-mothership.service
+* */12 * * * systemctl restart mtf-scout.service
