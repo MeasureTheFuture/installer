@@ -136,9 +136,9 @@ cd ~/
 cp mtf-mothership.service /lib/systemd/system
 cp mtf-scout.service /lib/systemd/system
 systemctl daemon-reload &> /dev/null
-systemctl start mtf-mothership.service &> /dev/null
+systemctl restart mtf-mothership.service &> /dev/null
 systemctl enable mtf-mothership.service &> /dev/null
-systemctl start mtf-scout.service &> /dev/null
+systemctl restart mtf-scout.service &> /dev/null
 systemctl enable mtf-scout.service &> /dev/null
 echo -ne " Done\n"
 
