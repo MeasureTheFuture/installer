@@ -1,1 +1,2 @@
-* */4 * * * reboot
+* */4 * * * hwclock --systohc
+1 */4 * * * reboot
