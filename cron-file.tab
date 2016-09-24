@@ -1,2 +1,1 @@
-* */4 * * * systemctl restart mtf-mothership.service
-* */4 * * * systemctl restart mtf-scout.service
+* */4 * * * reboot
