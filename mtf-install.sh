@@ -120,7 +120,7 @@ echo -ne "Configuring postgreSQL... Done\n"
 
 # Install MTF.
 echo -ne "Installing MTF..."
-opkg install http://reprage.com/ipkgs/mtf_0.0.12_x86.ipk &> /dev/null
+opkg install http://reprage.com/ipkgs/mtf_0.0.13_x86.ipk &> /dev/null
 echo -ne " Done\n"
 
 # Migrate database to the latest version.
