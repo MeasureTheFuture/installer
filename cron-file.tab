@@ -1,1 +1,2 @@
-* */8 * * * hwclock --systohc;/sbin/shutdown -r now
+0 */8 * * * hwclock --systohc
+0 */8 * * * /sbin/shutdown -r now
