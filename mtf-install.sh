@@ -144,8 +144,8 @@ echo -ne " Done\n"
 
 # Install cron.
 echo -ne "Installing Cron..."
-opkg install http://iotdk.intel.com/repos/3.5/iotdk/edison/core2-32/pam-plugin-access_1.1.6-r5_core2-32.ipk
-opkg install http://iotdk.intel.com/repos/3.5/iotdk/edison/core2-32/cronie_1.4.11-r0_core2-32.ipk
+opkg install http://iotdk.intel.com/repos/3.5/iotdk/edison/core2-32/pam-plugin-access_1.1.6-r5_core2-32.ipk &> /dev/null
+opkg install http://iotdk.intel.com/repos/3.5/iotdk/edison/core2-32/cronie_1.4.11-r0_core2-32.ipk &> /dev/null
 crontab cron-file.tab
 echo -ne " Done\n"
 
