@@ -1,0 +1,10 @@
+[Unit]
+Description=The Measure the Future mothership server
+After=postgresql.service
+
+[Service]
+WorkingDirectory=/usr/local/mtf/bin
+ExecStart=/usr/local/mtf/bin/scout
+
+[Install]
+WantedBy=multi-user.target
