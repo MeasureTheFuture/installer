@@ -1,57 +1,70 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get purge --auto-remove gvfs-backends gvfs-fuse
-sudo apt-get install vim
-
-# Install go-lang
-wget https://storage.googleapis.com/golang/go1.7.3.linux-armv6l.tar.gz
-sudo tar -C /usr/local -xzf go1.7.3.linux-armv6l.tar.gz
+# Tidy up the Raspbian installation.
+echo -ne "Preparing Raspbian... "
+sudo apt-get -y purge --auto-remove gvfs-backends gvfs-fuse &> /dev/null
+sudo apt-get -y install vim &> /dev/null
+echo -ne " Done\n"
 
 # Install OpenCV.
-sudo apt-get install build-essential git cmake pkg-config
-sudo apt-get install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev
-sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-sudo apt-get install libxvidcore-dev libx264-dev
-sudo apt-get install libatlas-base-dev gfortran
-sudo apt-get install postgresql-9.4
-sudo apt-get install nodejs npm
-sudo npm install npm -g
+echo -ne "Installing OpenCV... "
+sudo apt-get -y install build-essential git cmake pkg-config &> /dev/null
+sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev &> /dev/null
+sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev &> /dev/null
+sudo apt-get -y install libxvidcore-dev libx264-dev &> /dev/null
+sudo apt-get -y install libatlas-base-dev gfortran &> /dev/null
+wget http://reprage.com/debs/cvbindings_3.1.0_armhf.deb &> /dev/null
+sudo dpkg -i cvbindings_3.1.0_armhf.deb &> /dev/null
 
-wget https://github.com/Itseez/opencv/archive/3.1.0.zip
-unzip 3.1.0.zip
-cd opencv-3.1.0
-mkdir release
-cd release
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-make -j4
-sudo make install
+wget http://reprage.com/debs/opencv_3.1.0_armhf.deb &> /dev/null
+sudo dpkg -i opencv_3.1.0_armhf.deb &> /dev/null
+echo -ne " Done\n"
 
-cd ~
-mkdir mtf
-cd mtf
-git clone https://github.com/MeasureTheFuture/CVBindings.git
-cd CVBindings
-cmake .
-make
-sudo cp CVBindings.h /usr/local/include/
-sudo cp libCVBindings.a /usr/local/lib/
+# Install Measure The Future
+echo -ne "Installing Measure The Future... "
+wget http://reprage.com/debs/mtf_0.0.13_armhf.deb &> /dev/null
+sudo dpkg -i mtf_0.0.13_armhf.deb &> /dev/null
 
-cd ..
-mkdir mtf
-mkdir mtf/src
-cd mtf
-export GOPATH=`pwd`
-go get github.com/MeasureTheFuture/scout
-export PGPASSWORD="${pg_password}"
+echo 'export PATH=$PATH:/usr/local/mtf/bin' >> .profile
+source .profile
+echo -ne " Done\n"
+
+# Bootstrap the Database.
+echo -ne "Installing postgreSQL... \n"
+sudo apt-get -y install postgresql-9.4 &> /dev/null
+read -s -p "Create a password for the MTF database: " mtf_database_pass
+echo -ne "Configuring postgreSQL... \n"
+sudo sed -i -e "s/password/${mtf_database_pass}/g" /usr/local/mtf/bin/mothership.json
+
+wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql &> /dev/null
 sudo -E -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
+migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path /usr/local/mtf/bin/migrations up &> /dev/null
+echo -ne " Done\n"
 
-go get github.com/MeasureTheFuture/mothership
-go get -u github.com/mattes/migrate
-./bin/migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path ./src/github.com/MeasureTheFuture/mothership/migrations up
+# Spin up the mothership and scout.
+# echo -ne "Starting Measure the Future..."
+# cd ~/
+# cp mtf-mothership.service /lib/systemd/system
+# cp mtf-scout.service /lib/systemd/system
+# systemctl daemon-reload &> /dev/null
+# systemctl start mtf-mothership.service &> /dev/null
+# systemctl enable mtf-mothership.service &> /dev/null
+# systemctl start mtf-scout.service &> /dev/null
+# systemctl enable mtf-scout.service &> /dev/null
+# echo -ne " Done\n"
 
-cd /mtf/mtf/src/github.com/MeasureTheFuture/mothership/frontend
-npm install
-npm run build
+# Switch the Raspberry Pi into Access point mode.
+# echo -ne "Opening access point..."
+# systemctl stop wpa_supplicant &> /dev/null
+# systemctl start hostapd &> /dev/null
+# systemctl disable wpa_supplicant &> /dev/null
+# systemctl enable hostapd &> /dev/null
+# echo -ne " Done\n"
 
+echo -ne "*******************\n"
+echo -ne "INSTALL SUCCESSFUL!\n"
+echo -ne "*******************\n\n"
+# echo -ne "This unit is running as a self-contained wireless access point:\n\n"
+# echo -ne "\t* The network is the same as the 'Device Name' you supplied to configure_edison\n"
+# echo -ne "\t* The password is the same as the 'Device Password' you supplied to configure_edison\n"
+# echo -ne "\t* Visit http://192.168.42.1 in your web browser to measure the future\n\n"
