@@ -5,6 +5,25 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ![alpha](https://img.shields.io/badge/stability-alpha-orange.svg?style=flat "Alpha")&nbsp;
  ![GPLv3 License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat "GPLv3 License")
 
+## Regular Installation (Raspberry Pi)
+
+
+* Configure the Raspberry Pi
+```
+	$ sudo raspi-config
+```
+* Update the Raspberry Pi
+```
+	$ sudo apt-get update
+	$ sudo apt-get -y upgrade
+```
+* Download and run the mtf-pi-install script.
+```
+	$ wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-install.sh
+	$ chmod +x mtf-pi-install.sh
+	$ ./mtf-pi-install.sh
+```
+
 ## Regular Installation (Edison)
 
 * [Download the latest Edison Installer from Intel](https://software.intel.com/en-us/iot/hardware/edison/downloads)

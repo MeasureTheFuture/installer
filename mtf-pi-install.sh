@@ -42,16 +42,15 @@ migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mo
 echo -ne " Done\n"
 
 # Spin up the mothership and scout.
-# echo -ne "Starting Measure the Future..."
-# cd ~/
-# cp mtf-mothership.service /lib/systemd/system
-# cp mtf-scout.service /lib/systemd/system
-# systemctl daemon-reload &> /dev/null
-# systemctl start mtf-mothership.service &> /dev/null
-# systemctl enable mtf-mothership.service &> /dev/null
-# systemctl start mtf-scout.service &> /dev/null
-# systemctl enable mtf-scout.service &> /dev/null
-# echo -ne " Done\n"
+ echo -ne "Starting Measure the Future..."
+sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-mothership.service -P /lib/systemd/system &> /dev/null
+sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-scout.service -P /lib/systemd/system &> /dev/null
+sudo systemctl daemon-reload &> /dev/null
+sudo systemctl start mtf-pi-mothership.service &> /dev/null
+sudo systemctl enable mtf-pi-mothership.service &> /dev/null
+sudo systemctl start mtf-pi-scout.service &> /dev/null
+sudo systemctl enable mtf-pi-scout.service &> /dev/null
+echo -ne " Done\n"
 
 # Switch the Raspberry Pi into Access point mode.
 # echo -ne "Opening access point..."
