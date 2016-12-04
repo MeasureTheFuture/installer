@@ -4,7 +4,7 @@ After=postgresql.service
 
 [Service]
 WorkingDirectory=/usr/local/mtf/bin
-ExecStart=/usr/local/mtf/bin/scout
+ExecStart=/usr/local/mtf/bin/mothership
 
 [Install]
 WantedBy=multi-user.target
