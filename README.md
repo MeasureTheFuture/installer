@@ -21,7 +21,7 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 ```
 	$ wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-install.sh
 	$ chmod +x mtf-pi-install.sh
-	$ ./mtf-pi-install.sh
+	$ sudo ./mtf-pi-install.sh
 ```
 
 ## Regular Installation (Edison)

@@ -42,7 +42,7 @@ migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mo
 echo -ne " Done\n"
 
 # Spin up the mothership and scout.
- echo -ne "Starting Measure the Future..."
+echo -ne "Starting Measure the Future..."
 sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-mothership.service -P /lib/systemd/system &> /dev/null
 sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-scout.service -P /lib/systemd/system &> /dev/null
 sudo systemctl daemon-reload &> /dev/null
@@ -53,17 +53,70 @@ sudo systemctl enable mtf-pi-scout.service &> /dev/null
 echo -ne " Done\n"
 
 # Switch the Raspberry Pi into Access point mode.
-# echo -ne "Opening access point..."
-# systemctl stop wpa_supplicant &> /dev/null
-# systemctl start hostapd &> /dev/null
-# systemctl disable wpa_supplicant &> /dev/null
-# systemctl enable hostapd &> /dev/null
-# echo -ne " Done\n"
+echo -ne "Opening wireless access point... \n"
+read -s -p "Create a wifi password (must be 8 to 63 characters): " APPASS
+echo -ne "\n"
+read -s -p "Create a name for the wifi network: "  APSSID
+sudo apt-get install -y hostapd dnsmasq &> /dev/null
+sudo cat > /lib/systemd/system/hostapd.service <<EOF
+[Unit]
+Description=Hostapd IEEE 802.11 Access Point
+After=sys-subsystem-net-devices-wlan0.device
+BindsTo=sys-subsystem-net-devices-wlan0.device
+
+[Service]
+Type=forking
+PIDFile=/var/run/hostapd.pid
+ExecStart=/usr/sbin/hostapd -B /etc/hostapd/hostapd.conf -P /var/run/hostapd.pid
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
+sudo cat > /etc/dnsmasq.conf <<EOF
+interface=wlan0
+dhcp-range=10.0.0.2,10.0.0.5,255.255.255.0,12h
+EOF
+
+sudo cat > /etc/hostapd/hostapd.conf <<EOF
+interface=wlan0
+hw_mode=g
+channel=10
+auth_algs=1
+wpa=2
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP
+rsn_pairwise=CCMP
+wpa_passphrase=$APPASS
+ssid=$APSSID
+EOF
+
+sudo sed -i -- 's/allow-hotplug wlan0//g' /etc/network/interfaces
+sudo sed -i -- 's/iface wlan0 inet manual//g' /etc/network/interfaces
+sudo sed -i -- 's/    wpa-conf \/etc\/wpa_supplicant\/wpa_supplicant.conf//g' /etc/network/interfaces
+
+sudo cat >> /etc/network/interfaces <<EOF
+	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+# Added by rPi Access Point Setup
+allow-hotplug wlan0
+iface wlan0 inet static
+	address 10.0.0.1
+	netmask 255.255.255.0
+	network 10.0.0.0
+	broadcast 10.0.0.255
+EOF
+
+sudo systemctl daemon-reload &> /dev/null
+sudo systemctl start hostapd &> /dev/null
+sudo systemctl enable hostapd &> /dev/null
+
+echo -ne " Done\n"
 
 echo -ne "*******************\n"
 echo -ne "INSTALL SUCCESSFUL!\n"
 echo -ne "*******************\n\n"
-# echo -ne "This unit is running as a self-contained wireless access point:\n\n"
-# echo -ne "\t* The network is the same as the 'Device Name' you supplied to configure_edison\n"
-# echo -ne "\t* The password is the same as the 'Device Password' you supplied to configure_edison\n"
-# echo -ne "\t* Visit http://192.168.42.1 in your web browser to measure the future\n\n"
+echo -ne "Please reboot.\n This unit will run as a self-contained wireless access point:\n\n"
+echo -ne "\t* The network name is '${APPASS}'\n"
+echo -ne "\t* The password is '${APSSID}'\n"
+echo -ne "\t* Visit http://10.0.0.1 in your web browser to measure the future\n\n"
