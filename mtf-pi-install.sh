@@ -22,8 +22,8 @@ echo -ne " Done\n"
 
 # Install Measure The Future
 echo -ne "Installing Measure The Future... "
-wget http://reprage.com/debs/mtf_0.0.13_armhf.deb &> /dev/null
-sudo dpkg -i mtf_0.0.13_armhf.deb &> /dev/null
+wget http://reprage.com/debs/mtf_0.0.14_armhf.deb &> /dev/null
+sudo dpkg -i mtf_0.0.14_armhf.deb &> /dev/null
 
 echo 'export PATH=$PATH:/usr/local/mtf/bin' >> .profile
 source .profile
