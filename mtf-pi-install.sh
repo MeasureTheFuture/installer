@@ -57,7 +57,7 @@ echo -ne "Opening wireless access point... \n"
 read -s -p "Create a wifi password (must be 8 to 63 characters): " APPASS
 echo -ne "\n"
 read -s -p "Create a name for the wifi network: "  APSSID
-sudo apt-get install -y hostapd dnsmasq &> /dev/null
+sudo apt-get -f install -y hostapd dnsmasq &> /dev/null
 sudo cat > /lib/systemd/system/hostapd.service <<EOF
 [Unit]
 Description=Hostapd IEEE 802.11 Access Point
