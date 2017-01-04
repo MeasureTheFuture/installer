@@ -7,6 +7,13 @@ This installer configures the Measure the Future project on an Intel Edison. It 
 
 ## Regular Installation (Raspberry Pi)
 
+* Install Raspbian
+
+Download [Raspbian Jessie Lite (2016-11-25)](https://www.raspberrypi.org/downloads/raspbian/) and follow the installation instructions for [installing images](https://www.raspberrypi.org/documentation/installation/installing-images/).
+
+* Enable SSH
+
+Place a file named 'ssh', without any extension, onto the boot partition of the SD card.
 
 * Configure the Raspberry Pi
 ```
