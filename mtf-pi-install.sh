@@ -37,14 +37,41 @@ read -s -p "Create a password for the MTF database: " mtf_database_pass
 echo -ne "Configuring postgreSQL... \n"
 sudo sed -i -e "s/password/${mtf_database_pass}/g" /usr/local/mtf/bin/scout.json
 
-wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql &> /dev/null
+sudo cat > /home/pi/db-bootstrap.sql <<EOF
+CREATE DATABASE mothership;
+CREATE DATABASE mothership_test;
+CREATE USER mothership_user WITH password :pass;
+ALTER ROLE mothership_user SET client_encoding TO 'utf8';
+ALTER ROLE mothership_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE mothership_user SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE mothership to mothership_user;
+GRANT ALL PRIVILEGES ON DATABASE mothership_test TO mothership_user;
+\connect mothership;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+EOF
+
 sudo -E -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
 migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path /usr/local/mtf/bin/migrations up &> /dev/null
 echo -ne " Done\n"
 
 # Spin up the mothership and scout.
 echo -ne "Starting Measure the Future..."
-sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-scout.service -P /lib/systemd/system &> /dev/null
+sudo cat > /lib/systemd/system/mtf-pi-scout.service <<EOF
+[Unit]
+Description=The Measure the Future scout
+After=postgresql.service
+
+[Service]
+Environment=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+WorkingDirectory=/home/root/mtf-build
+ExecStart=/home/root/mtf-build/scout
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
 sudo systemctl daemon-reload &> /dev/null
 sudo systemctl start mtf-pi-scout.service &> /dev/null
 sudo systemctl enable mtf-pi-scout.service &> /dev/null
