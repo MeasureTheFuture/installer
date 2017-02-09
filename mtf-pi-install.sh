@@ -13,17 +13,17 @@ sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev &> /
 sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev &> /dev/null
 sudo apt-get -y install libxvidcore-dev libx264-dev &> /dev/null
 sudo apt-get -y install libatlas-base-dev gfortran &> /dev/null
-wget http://reprage.com/debs/cvbindings_3.1.0_armhf.deb &> /dev/null
-sudo dpkg -i cvbindings_3.1.0_armhf.deb &> /dev/null
+wget https://github.com/MeasureTheFuture/CVBindings/releases/download/v3.2.0/cvbindings_3.2.0_armhf.deb &> /dev/null
+sudo dpkg -i cvbindings_3.2.0_armhf.deb &> /dev/null
 
-wget http://reprage.com/debs/opencv_3.1.0_armhf.deb &> /dev/null
-sudo dpkg -i opencv_3.1.0_armhf.deb &> /dev/null
+wget https://github.com/MeasureTheFuture/CVBindings/releases/download/v3.2.0/opencv_3.2.0_armhf.deb &> /dev/null
+sudo dpkg -i opencv_3.2.0_armhf.deb &> /dev/null
 echo -ne " Done\n"
 
 # Install Measure The Future
 echo -ne "Installing Measure The Future... "
-wget http://reprage.com/debs/mtf_0.0.16_armhf.deb &> /dev/null
-sudo dpkg -i mtf_0.0.16_armhf.deb &> /dev/null
+wget https://github.com/MeasureTheFuture/scout/releases/download/v0.0.17/mtf_0.0.17_armhf.deb &> /dev/null
+sudo dpkg -i mtf_0.0.17_armhf.deb &> /dev/null
 
 echo 'export PATH=$PATH:/usr/local/mtf/bin' >> .profile
 source .profile
@@ -32,9 +32,10 @@ echo -ne " Done\n"
 # Bootstrap the Database.
 echo -ne "Installing postgreSQL... \n"
 sudo apt-get -y install postgresql-9.4 &> /dev/null
+sudo apt-get -y install postgresql-contrib-9.4 &> /dev/null
 read -s -p "Create a password for the MTF database: " mtf_database_pass
 echo -ne "Configuring postgreSQL... \n"
-sudo sed -i -e "s/password/${mtf_database_pass}/g" /usr/local/mtf/bin/mothership.json
+sudo sed -i -e "s/password/${mtf_database_pass}/g" /usr/local/mtf/bin/scout.json
 
 wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/db-bootstrap.sql &> /dev/null
 sudo -E -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
@@ -43,11 +44,8 @@ echo -ne " Done\n"
 
 # Spin up the mothership and scout.
 echo -ne "Starting Measure the Future..."
-sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-mothership.service -P /lib/systemd/system &> /dev/null
 sudo wget https://raw.githubusercontent.com/MeasureTheFuture/installer/master/mtf-pi-scout.service -P /lib/systemd/system &> /dev/null
 sudo systemctl daemon-reload &> /dev/null
-sudo systemctl start mtf-pi-mothership.service &> /dev/null
-sudo systemctl enable mtf-pi-mothership.service &> /dev/null
 sudo systemctl start mtf-pi-scout.service &> /dev/null
 sudo systemctl enable mtf-pi-scout.service &> /dev/null
 echo -ne " Done\n"
