@@ -64,8 +64,8 @@ After=postgresql.service
 
 [Service]
 Environment=LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
-WorkingDirectory=/home/root/mtf-build
-ExecStart=/home/root/mtf-build/scout
+WorkingDirectory=/usr/local/mtf/bin
+ExecStart=/usr/local/mtf/bin/scout
 
 [Install]
 WantedBy=multi-user.target
