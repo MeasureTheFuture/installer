@@ -79,7 +79,18 @@ echo -ne " Done\n"
 
 # Switch the Raspberry Pi into Access point mode.
 echo -ne "Opening wireless access point... \n"
-read -s -p "Create a wifi password (must be 8 to 63 characters): " APPASS
+passlen=0
+while [ "$passlen" -lt "8" ]
+do
+	read -s -p "Create a wifi password: " APPASS
+	passlen=${#APPASS}
+
+	if [ "$passlen" -lt "8" ]
+	then
+		echo "must be 8 to 63 characters long."
+	fi
+done
+
 echo -ne "\n"
 read -s -p "Create a name for the wifi network: "  APSSID
 sudo apt-get -f install -y hostapd dnsmasq &> /dev/null
