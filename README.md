@@ -1,11 +1,13 @@
 # Installer
 
-This installer configures the Measure the Future project on an Intel Edison. It installs both scout and mothership components.
+This installer configures the Measure the Future project on a Raspberry Pi 3 Model B. It installs both scout and mothership components.
 
 ![alpha](https://img.shields.io/badge/stability-alpha-orange.svg?style=flat "Alpha")&nbsp;
  ![GPLv3 License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat "GPLv3 License")
 
 ## Regular Installation (Raspberry Pi)
+
+THESE INSTRUCTIONS ARE DEPRECATED - Please visit http://measurethefuture.net/build/ for the current instructions.
 
 * Install Raspbian
 
