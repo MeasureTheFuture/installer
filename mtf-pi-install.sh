@@ -13,17 +13,17 @@ sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev &> /
 sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev &> /dev/null
 sudo apt-get -y install libxvidcore-dev libx264-dev &> /dev/null
 sudo apt-get -y install libatlas-base-dev gfortran &> /dev/null
-wget https://github.com/MeasureTheFuture/CVBindings/releases/download/v3.2.0/cvbindings_3.2.0_armhf.deb &> /dev/null
-sudo dpkg -i cvbindings_3.2.0_armhf.deb &> /dev/null
+wget https://github.com/MeasureTheFuture/CVBindings/releases/download/3.4.1/cvbindings_3.4.1_armhf.deb &> /dev/null
+sudo dpkg -i cvbindings_3.4.1_armhf.deb &> /dev/null
 
-wget https://github.com/MeasureTheFuture/CVBindings/releases/download/v3.2.0/opencv_3.2.0_armhf.deb &> /dev/null
-sudo dpkg -i opencv_3.2.0_armhf.deb &> /dev/null
+wget https://github.com/MeasureTheFuture/Pi-OpenCV/releases/download/3.4.1/opencv_3.4.1_armhf.deb &> /dev/null
+sudo dpkg -i opencv_3.4.1_armhf.deb &> /dev/null
 echo -ne " Done\n"
 
 # Install Measure The Future
 echo -ne "Installing Measure The Future... "
-wget https://github.com/MeasureTheFuture/scout/releases/download/v0.0.20/mtf_0.0.20_armhf.deb &> /dev/null
-sudo dpkg -i mtf_0.0.20_armhf.deb &> /dev/null
+wget https://github.com/MeasureTheFuture/scout/releases/download/v0.0.23/mtf_0.0.23_armhf.deb &> /dev/null
+sudo dpkg -i mtf_0.0.23_armhf.deb &> /dev/null
 
 echo 'export PATH=$PATH:/usr/local/mtf/bin' >> .profile
 source .profile
@@ -31,8 +31,7 @@ echo -ne " Done\n"
 
 # Bootstrap the Database.
 echo -ne "Installing postgreSQL... \n"
-sudo apt-get -y install postgresql-9.4 &> /dev/null
-sudo apt-get -y install postgresql-contrib-9.4 &> /dev/null
+sudo apt-get -y install postgresql &> /dev/null
 read -s -p "Create a password for the MTF database: " mtf_database_pass
 echo -ne "Configuring postgreSQL... \n"
 sudo sed -i -e "s/password/${mtf_database_pass}/g" /usr/local/mtf/bin/scout.json
