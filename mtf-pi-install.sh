@@ -51,7 +51,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 EOF
 
 sudo -E -u postgres psql -v pass="'${mtf_database_pass}'" -f db-bootstrap.sql &> /dev/null
-migrate -url postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path /usr/local/mtf/bin/migrations up &> /dev/null
+migrate -database postgres://mothership_user:"${mtf_database_pass}"@localhost:5432/mothership -path /usr/local/mtf/bin/migrations up &> /dev/null
 echo -ne " Done\n"
 
 # Spin up the mothership and scout.
@@ -93,6 +93,15 @@ done
 echo -ne "\n"
 read -s -p "Create a name for the wifi network: "  APSSID
 sudo apt-get -f install -y hostapd dnsmasq &> /dev/null
+sudo cat >> /etc/dhcpcd.conf <<EOF
+interface wlan0
+	static ip_address=10.0.0.1/24
+EOF
+
+sudo cat >> /etc/default/hostapd <<EOF
+DAEMON_CONF="/etc/hostapd/hostapd.conf"
+EOF
+
 sudo cat > /lib/systemd/system/hostapd.service <<EOF
 [Unit]
 Description=Hostapd IEEE 802.11 Access Point
@@ -133,13 +142,6 @@ sudo sed -i -- 's/    wpa-conf \/etc\/wpa_supplicant\/wpa_supplicant.conf//g' /e
 
 sudo cat >> /etc/network/interfaces <<EOF
 	wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-# Added by rPi Access Point Setup
-allow-hotplug wlan0
-iface wlan0 inet static
-	address 10.0.0.1
-	netmask 255.255.255.0
-	network 10.0.0.0
-	broadcast 10.0.0.255
 EOF
 
 sudo systemctl daemon-reload &> /dev/null
