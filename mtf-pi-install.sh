@@ -127,10 +127,12 @@ sudo cat > /etc/hostapd/hostapd.conf <<EOF
 interface=wlan0
 hw_mode=g
 channel=10
+wmm_enabled=0
+macaddr_acl=0
 auth_algs=1
 wpa=2
 wpa_key_mgmt=WPA-PSK
-wpa_pairwise=CCMP
+wpa_pairwise=TKIP
 rsn_pairwise=CCMP
 wpa_passphrase=$APPASS
 ssid=$APSSID
