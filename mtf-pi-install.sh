@@ -125,6 +125,7 @@ EOF
 
 sudo cat > /etc/hostapd/hostapd.conf <<EOF
 interface=wlan0
+driver=nl80211
 hw_mode=g
 channel=10
 wmm_enabled=0
