@@ -30,14 +30,14 @@ pip install numpy
 cd opencv
 mkdir build
 cd build
-#Check build
+#Check build, setting to build examples due to unsure if it is a dependency somewhere else, could speed it up dramatically if set to OFF
 echo -ne "Checking enviornment and generating make file headers, this might take a minute or two"
 if [ ! -d "opencv/build/bin" ]; then
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D INSTALL_PYTHON_EXAMPLES=OFF \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
     -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
-    -D BUILD_EXAMPLES=OFF ..
+    -D BUILD_EXAMPLES=ON ..
 
 #Generate make file
 echo -ne "Generating make file, this will take at least an hour, grab a coffee and take a deep breath"
