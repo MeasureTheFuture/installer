@@ -4,15 +4,49 @@
 echo -ne "Preparing Raspbian... "
 sudo apt-get -y purge --auto-remove gvfs-backends gvfs-fuse &> /dev/null
 sudo apt-get -y install vim &> /dev/null
+sudo iplink set wlan0 up
 echo -ne " Done\n"
 
-# Install OpenCV.
-echo -ne "Installing OpenCV... "
+# Install OpenCV Dependencies
+echo -ne "Installing OpenCV Dependencies... "
 sudo apt-get -y install build-essential git cmake pkg-config &> /dev/null
 sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev &> /dev/null
 sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev &> /dev/null
 sudo apt-get -y install libxvidcore-dev libx264-dev &> /dev/null
 sudo apt-get -y install libatlas-base-dev gfortran &> /dev/null
+sudo apt-get -y install libgtk2.0-dev
+sudo apt-get -y install python2.7-dev python3-dev
+sudo apt-get -y install -f
+sudo apt-get -y install hostapd
+sudo mkdir /etc/hostapd
+sudo touch /etc/hostapd/hostapd.conf
+#Install OpenCV and OpenCV_Contrib from Official Git Repository
+echo -ne "Installing OpenCV from Official Git Repository"
+git clone https://github.com/opencv/opencv_contrib.git
+git clone https://github.com/opencv/opencv.git
+pip install numpy
+cd opencv
+mkdir build
+cd build
+#Check build
+echo -ne "Checking enviornment and generating make file headers, this might take a minute or two"
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+    -D BUILD_EXAMPLES=ON ..
+
+#Generate make file
+echo -ne "Generating make file, this will take at least an hour, grab a coffee and take a deep breath"
+make -j4
+#Install package 
+echo -ne "Installing package"
+sudo make install
+sudo ldconfig
+echo -ne "Symlinking package for import"
+ln -s /usr/local/lib/python2.7/dist-packages/cv2.so cv2.so
+
+echo -ne "Begin Measure The Future Installation instructions"
 wget https://github.com/MeasureTheFuture/CVBindings/releases/download/3.4.1/cvbindings_3.4.1_armhf.deb &> /dev/null
 sudo dpkg -i cvbindings_3.4.1_armhf.deb &> /dev/null
 
