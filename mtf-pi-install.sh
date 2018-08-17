@@ -4,15 +4,54 @@
 echo -ne "Preparing Raspbian... "
 sudo apt-get -y purge --auto-remove gvfs-backends gvfs-fuse &> /dev/null
 sudo apt-get -y install vim &> /dev/null
+sudo ip link set wlan0 up
 echo -ne " Done\n"
 
-# Install OpenCV.
-echo -ne "Installing OpenCV... "
+# Install OpenCV Dependencies
+echo -ne "Installing OpenCV Dependencies... "
 sudo apt-get -y install build-essential git cmake pkg-config &> /dev/null
 sudo apt-get -y install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev &> /dev/null
 sudo apt-get -y install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev &> /dev/null
 sudo apt-get -y install libxvidcore-dev libx264-dev &> /dev/null
 sudo apt-get -y install libatlas-base-dev gfortran &> /dev/null
+sudo apt-get -y install libgtk2.0-dev
+sudo apt-get -y install python2.7-dev python3-dev openjdk-8-jdk
+sudo apt-get -y install -f
+sudo apt-get -y install hostapd
+sudo mkdir /etc/hostapd
+sudo touch /etc/hostapd/hostapd.conf
+#Install OpenCV and OpenCV_Contrib from Official Git Repository
+echo -ne "Installing OpenCV from Official Git Repository"
+if [ ! -d "opencv" ]; then
+git clone https://github.com/opencv/opencv_contrib.git
+git clone https://github.com/opencv/opencv.git
+fi
+pip install numpy
+cd opencv
+mkdir build
+cd build
+#Check build, setting to build examples due to unsure if it is a dependency somewhere else, could speed it up dramatically if set to OFF
+echo -ne "Checking enviornment and generating make file headers, this might take a minute or two"
+if [ ! -d "opencv/build/bin" ]; then
+cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D INSTALL_PYTHON_EXAMPLES=ON \
+    -D OPENCV_EXTRA_MODULES_PATH=~/opencv_contrib/modules \
+    -D BUILD_EXAMPLES=ON ..
+
+#Generate make file
+echo -ne "Generating make file, this will take at least an hour, grab a coffee and take a deep breath"
+make -j4
+#Install package 
+echo -ne "Installing package"
+sudo make install
+sudo ldconfig
+fi
+
+echo -ne "Symlinking package for import"
+ln -s /usr/local/lib/python2.7/dist-packages/cv2.so cv2.so
+
+echo -ne "Begin Measure The Future Installation instructions"
 wget https://github.com/MeasureTheFuture/CVBindings/releases/download/3.4.1/cvbindings_3.4.1_armhf.deb &> /dev/null
 sudo dpkg -i cvbindings_3.4.1_armhf.deb &> /dev/null
 
@@ -32,7 +71,8 @@ echo -ne " Done\n"
 # Bootstrap the Database.
 echo -ne "Installing postgreSQL... \n"
 sudo apt-get -y install postgresql &> /dev/null
-read -s -p "Create a password for the MTF database: " mtf_database_pass
+echo -ne "Create a password for the MTF database: " 
+read mtf_database_pass
 echo -ne "Configuring postgreSQL... \n"
 sudo sed -i -e "s/password/${mtf_database_pass}/g" /usr/local/mtf/bin/scout.json
 
@@ -91,7 +131,9 @@ do
 done
 
 echo -ne "\n"
-read -s -p "Create a name for the wifi network: "  APSSID
+echo -ne "Create a name for the wifi network: "  
+read APSSID
+
 sudo apt-get -f install -y hostapd dnsmasq &> /dev/null
 sudo cat >> /etc/dhcpcd.conf <<EOF
 interface wlan0
@@ -160,3 +202,4 @@ echo -ne "Please reboot.\n This unit will run as a self-contained wireless acces
 echo -ne "\t* The network name is '${APSSID}'\n"
 echo -ne "\t* The password is '${APPASS}'\n"
 echo -ne "\t* Visit http://10.0.0.1 in your web browser to measure the future\n\n"
+
